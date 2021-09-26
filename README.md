@@ -232,6 +232,8 @@ For DNSPod, you need to provide your API Token(you can create it [here](https://
 <details>
 <summary>Example</summary>
 
+ IPv4示例：
+ 
 ```json
 {
   "provider": "DNSPod",
@@ -251,6 +253,28 @@ For DNSPod, you need to provide your API Token(you can create it [here](https://
   "socks5_proxy": ""
 }
 ```
+ IPV6示例：
+ 
+```json 
+ {
+  "provider": "DNSPod",
+  "login_token": "your_id,your_token",
+  "domains": [{
+      "domain_name": "example.com",
+      "sub_domains": ["www","test"]
+    }
+  ],
+  "resolver": "2400:3200::1",
+  "ipv6_url": "https://api.myip.la",
+  "ip_type": "IPv6",
+  "interval": 300,
+  "ip_interface": "eth0",
+  "socks5_proxy": "",
+  "debug_info": false
+}
+ ```
+ 
+ 
 </details>
 
 #### Dreamhost
