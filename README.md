@@ -32,6 +32,7 @@ Currently supports updating A records for subdomains. Doesn't support updating o
 - [Usage](#usage)
 - [Configuration](#configuration)
   - [Overview](#overview)
+  - [Configuration file format](#configuration-file-format)
   - [Configuration properties](#configuration-properties)
   - [Update root domain](#update-root-domain)
   - [Configuration examples](#configuration-examples)
@@ -118,9 +119,9 @@ Alternatively, you can sign in to [DuckDNS](https://www.duckdns.org) (with a soc
 Build GoDNS by running (from the root of the repository):
 
 ```bash
-cd cmd/godns  # go to the GoDNS directory
-go get -v     # get dependencies
-go build      # build
+cd cmd/godns        # go to the GoDNS directory
+go mod download     # get dependencies
+go build            # build
 ```
 
 You can also download a compiled binary from the [releases](https://github.com/TimothyYe/godns/releases).
@@ -140,10 +141,19 @@ Usage of ./godns:
 
 ### Overview
 
-* Make a copy of [config_sample.json](./config_sample.json) and name it `config.json`
+* Make a copy of [config_sample.json](configs/config_sample.json) and name it as `config.json`, or make a copy of [config_sample.yaml](configs/config_sample.yaml) and name it as `config.yaml`.
 * Configure your provider, domain/subdomain info, credentials, etc.
 * Configure a notification medium (e.g. SMTP to receive emails) to get notified when your IP address changes
 * Place the file in the same directory of GoDNS or use the `-c=path/to/your/file.json` option
+
+### Configuration file format
+
+GoDNS supports 2 different configuration file formats:
+
+* JSON
+* YAML
+
+By default, GoDNS uses `JSON` config file. However, you can specify to use the `YAML` format via: `./godns -c /path/to/config.yaml` 
 
 ### Configuration properties
 
@@ -453,11 +463,11 @@ For HE, email is not needed, just fill DDNS key to password, and config all the 
 
 Add a new "A record" and make sure that "Enable entry for dynamic dns" is checked:
 
-<img src="./snapshots/he1.png" width="640" />
+<img src="assets/snapshots/he1.png" width="640" />
 
 Fill in your own DDNS key or generate a random DDNS key for this new created "A record":
 
-<img src="./snapshots/he2.png" width="640" />
+<img src="assets/snapshots/he2.png" width="640" />
 
 Remember the DDNS key and set it in the `password` property in the configuration file.
 
@@ -514,7 +524,7 @@ Emails are sent over [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_P
 
 Each time the IP changes, you will receive an email like that:
 
-<img src="https://github.com/TimothyYe/godns/blob/master/snapshots/mail.png?raw=true" />
+<img src="https://github.com/TimothyYe/godns/blob/master/assets/snapshots/mail.png?raw=true" />
 
 #### Telegram
 
@@ -614,10 +624,8 @@ To enable the `IPv6` support of GoDNS, there are two solutions to choose from:
 For some reasons if you want to get the IP address associated to a network interface (instead of performing an online lookup), you can specify it in the configuration file this way:
 
 ```json
-...
   "ip_url": "",
   "ip_interface": "interface-name",
-...
 ```
 
 With `interface-name` replaced by the name of the network interface, e.g. `eth0` on Linux or `Local Area Connection` on Windows.
@@ -629,10 +637,8 @@ Note: If `ip_url` is also specified, it will be used to perform an online lookup
 You can make all remote calls go through a [SOCKS5 proxy](https://en.wikipedia.org/wiki/SOCKS#SOCKS5) by specifying it in the configuration file this way:
 
 ```json
-...
 "socks5_proxy": "127.0.0.1:7070"
 "use_proxy": true
-...
 ```
 
 #### Display debug info 
