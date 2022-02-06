@@ -39,6 +39,7 @@ Currently supports updating A records for subdomains. Doesn't support updating o
     - [Cloudflare](#cloudflare)
     - [DNSPod](#dnspod)
     - [Dreamhost](#dreamhost)
+    - [Dynv6](#dynv6)
     - [Google Domains](#google-domains)
     - [AliDNS](#alidns)
     - [DuckDNS](#duckdns)
@@ -50,6 +51,7 @@ Currently supports updating A records for subdomains. Doesn't support updating o
     - [Telegram](#telegram)
     - [Slack](#slack)
     - [Discord](#discord)
+    - [Pushover](#pushover)
   - [Miscellaneous topics](#miscellaneous-topics)
     - [IPv6 support](#ipv6-support)
     - [Network interface IP address](#network-interface-ip-address)
@@ -71,6 +73,7 @@ Currently supports updating A records for subdomains. Doesn't support updating o
 | [Cloudflare][cloudflare]              | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [Google Domains][google.domains]      | :white_check_mark: | :white_check_mark: |        :x:         | :white_check_mark: |
 | [DNSPod][dnspod]                      | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| [Dynv6][dynv6]                        | :white_check_mark: | :white_check_mark: |        :x:         | :white_check_mark: |
 | [HE.net (Hurricane Electric)][he.net] | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [AliDNS][alidns]                      | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | [DuckDNS][duckdns]                    | :white_check_mark: | :white_check_mark: |        :x:         | :white_check_mark: |
@@ -81,6 +84,7 @@ Currently supports updating A records for subdomains. Doesn't support updating o
 [cloudflare]: https://cloudflare.com
 [google.domains]: https://domains.google
 [dnspod]: https://www.dnspod.cn
+[dynv6]: https://dynv6.com
 [he.net]: https://dns.he.net
 [alidns]: https://help.aliyun.com/product/29697.html
 [duckdns]: https://www.duckdns.org
@@ -311,6 +315,35 @@ For Dreamhost, you need to provide your API Token(you can create it [here](https
   "ip_type": "IPv4",
   "interval": 300,
   "resolver": "ns1.dreamhost.com",
+  "socks5_proxy": ""
+}
+```
+</details>
+
+#### Dynv6
+
+For Dynv6, only need to provide the `token`, config 1 default domain & subdomains.
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+  "provider": "Dynv6",
+  "password": "",
+  "login_token": "1234567ABCDEFGabcdefg123456789",
+  "domains": [
+    {
+      "domain_name": "dynv6.net",
+      "sub_domains": [
+        "myname"
+      ]
+    }
+  ],
+  "resolver": "8.8.8.8",
+  "ip_url": "https://api.ip.sb/ip",
+  "ip_type": "IPv4",
+  "interval": 300,
   "socks5_proxy": ""
 }
 ```
@@ -576,6 +609,29 @@ To receive a [Discord](https://discord.gg) message each time the IP changes, upd
         }
   }
 ```
+
+#### Pushover
+
+To receive a [Pushover](https://pushover.net/) message each time the IP changes, update your configuration with the following snippet:
+
+```json
+  "notify": {
+    "pushover": {
+      "enabled": true,
+      "token": "abcdefghijklmnopqrstuvwxyz1234",
+      "user": "abcdefghijklmnopqrstuvwxyz1234",
+      "message_template": "",
+      "device": "",
+      "title": "",
+      "priority": 0,
+      "html": 1
+    }
+  }
+```
+
+The `message_template` property supports [html](https://pushover.net/api#html) if the `html` parameter is `1`. If it is left empty a default message will be used.
+If the `device` and `title` parameters are left empty, Pushover will choose defaults [see](https://pushover.net/api#messages). More details on the priority parameter
+can be found on the Pushover [API description](https://pushover.net/api#priority).
 
 ### Miscellaneous topics
 
